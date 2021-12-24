@@ -6,7 +6,7 @@ using namespace std;
 int main(void)
 {
 	string str;
-  //공백을 포함한 string 입력함수
+ 	//공백을 포함한 string 입력함수
 	getline(cin, str);
 	int count = 0;
 
