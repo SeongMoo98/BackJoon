@@ -1,0 +1,109 @@
+/*
+ * Deque - 덱
+ * 리스트의 양쪽 끝에서 삽입과 삭제를 모두 허용하는 구조
+ * Stack, Queuefmf 복합한 형태
+ * push_front X : 정수 X를 덱의 앞에 넣는다./
+ * push_back X : 정수 X를 덱의 뒤에 넣는다.
+ * pop_front : 덱의 가장 앞에 있는 데이터 삭제.
+ * pop_back : 덱의 가장 뒤에 있는 데이터 삭제
+ * size : 덱에 들어있는 정수의 개수를 반환한다.
+ * empty : 덱이 비어있으면 1을, 아니면 0을 반환한다.
+ * front : 덱의 가장 앞에 있는 데이터를 반환
+ * back : 덱의 가장 뒤에 있는 데이터를 반환
+ */
+
+#include<iostream>
+#include<deque>
+#include<string>
+
+using namespace std;
+
+
+void Instruction(string str, deque<int>* deq)
+{
+	int data;
+	if (str == "push_front")
+	{
+		cin >> data;
+		deq->push_front(data);
+		return;
+	}
+	else if (str == "push_back")
+	{
+		cin >> data;
+		deq->push_back(data);
+		return;
+	}
+	else if (str == "pop_front")
+	{
+		if (deq->empty())
+		{
+			cout << "-1\n";
+			return;
+		}
+		cout << deq->front() << "\n";
+		deq->pop_front();
+		return;
+	}
+	else if (str == "pop_back")
+	{
+		if (deq->empty())
+		{
+			cout << "-1\n";
+			return;
+		}
+		cout << deq->back() << "\n";
+		deq->pop_back();
+		return;
+	}
+	else if (str == "size")
+	{
+		cout << deq->size() << "\n";
+		return;
+	}
+	else if (str == "empty")
+	{
+		cout << deq->empty() << "\n";
+		return;
+	}
+	else if (str == "front")
+	{
+		if (deq->empty())
+		{
+			cout << "-1\n";
+			return;
+		}
+		cout << deq->front() << "\n";
+		return;
+	}
+	else if (str == "back")
+	{
+		if (deq->empty())
+		{
+			cout << "-1\n";
+			return;
+		}
+		cout << deq->back() << "\n";
+		return;
+	}
+}
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N;
+	cin >> N;
+	deque<int> deq;
+	for (int i = 0; i < N; i++)
+	{
+		string str;
+		cin >> str;
+		Instruction(str, &deq);
+	}
+
+
+
+	return 0;
+}
