@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N;
+	cin >> N;
+	//최대갯수
+	int max = N / 5;
+	int sum = 0;
+
+	while (1)
+	{
+		if (max < 0)
+		{
+			cout << -1;
+			return 0;
+		}
+		//N-(5*몫)은 결국 5로 나눈 나머지 나머지이다.
+		if ((N - (5 * max)) % 3 == 0)
+		{
+			sum = (N - (5 * max)) / 3;
+			break;
+		}
+		max--;
+	}
+	cout << max + sum;
+
+
+	return 0;
+}
+
+
