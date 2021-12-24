@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+using namespace std
+
+int main(void)
+{
+	string num1, num2;
+	cin >> num1 >> num2;
+	string cpy;
+
+	for (int i = 2; i >= 0; i--)
+	{
+		if (num1[i] > num2[i])
+		{
+			cpy = num1;
+			break;
+		}
+		else if (num1[i] < num2[i])
+		{
+			cpy = num2;
+			break;
+		}
+	}
+	cout << cpy[2] << cpy[1] << cpy[0];
+
+	return 0;
+}
