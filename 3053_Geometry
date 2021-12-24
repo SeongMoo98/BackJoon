@@ -1,0 +1,38 @@
+/*
+ * 유클리드 기하학
+ * d = x^2 + y^2 에 루트 -> 원의 형태
+ * 유클리드 기하학에서의 원의 넓이는 3.14 R R 로 구할 수 있다.
+ * 
+ * 택시 기하학
+ * d= |x1-x2| + |y1-y2| ->마름모 형태를 가진다
+ * 택시 기하학에서의 원은 중심점에서 반지름(일정한 길이) 만큼 떨어져 있는 모든 점 들을 모은 점들의 집합으로 다음 그림과 같이 마름모 꼴을 가지게 된다.
+ * 다음을 코드에서 적용하면 마름모의 넓이를 구하는 공식 이 택시 기하학에서의 넓이와 같다는걸 알수있다.마름모의 넓이는 2R(지름) * R(반지름) 이므로 다음을 구하면 정답이 나온다.
+ */
+
+#define _USE_MATH_DEFINES //cmath 의 상수를 사용하기위해 제일위에 define해서 M_PI값 사용
+#include<iostream>
+#include<cmath>
+
+
+
+using namespace std;
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	double R;
+	cin >> R;
+
+	//precision의 소수점을 고정하기 위한 fixed 사용 후 소수점자리 precision사용
+	cout << fixed;
+	cout.precision(6);
+
+	cout << M_PI * pow(R, 2) << "\n";
+	cout << 2 * pow(R, 2);
+
+	return 0;
+}
+
+
