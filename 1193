@@ -1,0 +1,32 @@
+#include<iostream>
+using namespace std;
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	//1그룹 - 1/1,	2그룹 - 2/1, 1/2,	3그룹 -3/1, 2/2, 1/3 . . .
+	int num, count = 0, group = 0;
+	cin >> num;
+	while (num > count)
+	{
+		//그룹
+		group++;
+		//횟수
+		count += group;
+	}
+
+	if (group % 2)
+	{
+		cout << (count - num) + 1 << "/" << group - (count - num);
+	}
+	else
+	{
+		cout << group - (count - num) << "/" << (count - num) + 1;
+	}
+
+	return 0;
+}
+
+
