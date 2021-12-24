@@ -1,0 +1,54 @@
+
+//9020번 골드바흐의 추측
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+//소수아닌것들 걸러냄
+void Init(bool* arr, int num)
+{
+	memset(arr, true, num + 1);
+
+	for (int i = 2; i <= sqrt(num); i++)
+	{
+		for (int j = i * 2; j <= num; j += i)
+			arr[j] = false;
+	}
+}
+
+
+//배열의 인덱스를 수로 사용
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int num;
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		int N;
+		cin >> N;
+		bool* arr = new bool[N + 1];
+		Init(arr, N);
+
+		int prime_1 = N / 2;
+		int prime_2 = N / 2;
+
+		while (1)
+		{
+			if (arr[prime_1] && arr[prime_2])
+			{
+				cout << prime_1 << " " << prime_2 << "\n";
+				break;
+			}
+			prime_1--;
+			prime_2++;
+		}
+	}
+
+
+	return 0;
+}
+
+
