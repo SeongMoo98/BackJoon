@@ -5,6 +5,7 @@ int main(void)
 {
 	double A, B;
 	cin >> A >> B;
+	//소수점 10자리까지 
 	cout.precision(10);
 	cout << A / B;
 	return 0;
