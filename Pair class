@@ -1,0 +1,47 @@
+/*
+ * 두 객체를 하나의 객체로 취급 할 수 있게 묶어주는 클래스, STL에서 데이터 "쌍"을 표현할 때 사용
+ * template <class T1, class T2> struct pair
+ * T1= fisrt, T2= second 로 구분
+
+ * pair<[type 1],[type 2]> p - 사용할 데이터 타입 1, 2를 넣고 그 타입의 pair 클래스인 p를 생성
+ * p.first() - p의 첫번째 인자 반환
+ * p.second() - p의 두번째 인자 반환
+ * make_pair(변수 1, 변수 2) - 변수 1과 변수 2가 들어간 pair을 생성 - ???
+ * operator(==, !=, <, >, <=, >=)가 오버로딩 되어있다
+ * sort알고리즘에 의해 정렬이 가능하다 - 첫번째 인자 기준  ==> 첫번째가 같으면 두번째 인자로 판단
+ */
+
+#include<iostream>
+#include<utility> // pair사용을 위한 헤더파일
+using namespace std;
+
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, rank = 1;
+	pair<int, int> people[50];
+	cin >> N;
+
+	for (int i = 0; i < N; i++)
+		cin >> people[i].first >> people[i].second;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+			if (people[i].first < people[j].first && people[i].second < people[j].second)
+				rank++;
+
+		cout << rank << " ";
+		rank = 1;
+	}
+
+
+
+
+	return 0;
+}
+
+
