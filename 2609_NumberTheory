@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+
+//최대공약수 구하기
+int gcd(int num1, int num2) {
+	int min, Gcd = 1;
+	if (num1 > num2) min = num2;
+	else min = num1;
+
+	for (int i = 1; i <= min; i++)
+		if (num1 % i == 0 && num2 % i == 0)
+			Gcd = i;
+	return Gcd;
+}
+
+//최소공배수 구하기
+int lcm(int num1, int num2) {
+	int Gcd = gcd(num1, num2);
+	return Gcd * (num1 / Gcd) * (num2 / Gcd);
+}
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int num1, num2;
+	cin >> num1 >> num2;
+	cout << gcd(num1, num2) << endl;
+	cout << lcm(num1, num2);
+
+
+	return 0;
+}
+
