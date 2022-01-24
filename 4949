@@ -1,0 +1,49 @@
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+bool vps(string str) {
+	stack<char> s;
+	for (int i = 0; i < str.size(); i++) {
+		char a = str.at(i);
+		if (a == '(' || a == '[')
+			s.push(a);
+		else if (a == ')') {
+			if (!s.empty() && s.top() == '(')
+				s.pop();
+			else
+				return false;
+		}
+		else if (a == ']'){
+			if (!s.empty() && s.top() == '[')
+				s.pop();
+			else
+				return false;
+		}
+	}
+	if (s.empty())
+		return true;
+	else
+		return false;
+
+}
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	string str;
+	//getline(istream& is, string str, char dlim) - dlim 종결문자
+	while (1){
+		getline(cin, str);
+		if (str == ".")
+			break;
+		if (vps(str))
+			cout << "yes" << endl;
+		else
+			cout << "no" << endl;
+		cin.clear();
+	}
+	return 0;
+}
+
