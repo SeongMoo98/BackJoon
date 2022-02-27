@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+
+//백트래킹(Back Tracking)
+//해를 찾아가는 도중, 지금의 경로가 해가 될 것 같지 않으면 그 경로를 더이상 가지않고 되돌아가서 다시 해를 찾는 기법
+//기본적인 접근은 DFS방식으로 하지만, 접근이 필요없는 가지는 방문을 하지 않아 수행시간을 줄이는 테크닉
+//여기서 응용은 bool배열을 활용해서 방문한 수들을 저장해주어 재방문을 막는다
+
+
+//전역변수 활용
+//N, M arr, visited등 프로그램 전체에서 활용하는 변수들을 전역변수로 지정하여
+//dfs함수에 인수로 계속 넣지 않아도 활용할 수 있다
+
+//동적 메모리 할당
+//N,M을 받아 new를 사용할 생각이었는데
+//크기가 크지 않고 최대값이 주어졌기 때문에 정적으로 처리해도 상관이 없다
+//그리고 new, delete를 사용하지 않아 코드가 깔끔해보인다
+int N, M;
+int arr[10]; //사용한 숫자들을 저장, 출력용
+bool visited[10]; //사용한 숫자 여부 확인용
+
+
+void dfs(const int& length) {
+	if (length == M) {
+		for (int i = 0; i < M; i++) 
+			cout << arr[i] << " ";
+		cout << "\n";
+		return;
+	}
+	
+
+	for (int i = 1; i <= N; i++) {
+		if (visited[i])
+			continue;
+		visited[i] = true;
+		arr[length] = i;
+		dfs(length + 1);
+		visited[i] = false;
+	}
+}
+
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	cin >> N >> M;
+
+	for (int i = 1; i <= N; i++) {
+		visited[i] = true;
+		arr[0] = i;
+		dfs(1);
+		visited[i] = false;
+	}
+	
+	
+	return 0;
+}
+
