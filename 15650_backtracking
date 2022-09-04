@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string>
+#include<unordered_map>
+using namespace std;
+
+//DFS를 활용한 조합문제
+//재귀 호출에서 현재 뽑은 원소 이전 값들은 고려 x
+
+
+int arr[9] = { 0,1,2,3,4,5,6,7,8 };
+bool visited[9] = { false, };
+int N, M;
+
+void dfs(int num, int count) {
+
+	if (count == M) {
+		for (int i = 0; i < M; i++) {
+			cout << arr[i] << " ";
+		}
+		cout << "\n";
+		return;
+	}
+
+	for (int i = num; i <= N; i++) {
+		if (!visited[i]) {
+			visited[i] = false;
+			arr[count] = i;
+			dfs(i + 1, count + 1);
+			visited[i] = false;
+		}
+	}
+}
+
+
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> N >> M;
+	dfs(1, 0);
+	
+
+	return 0;
+}
+
