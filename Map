@@ -1,0 +1,53 @@
+/**
+ *
+ * Map
+ * key - value 쌍으로 저장되는 자료구조(pair 객체형태로 저장)
+ * 노드 기반으로 이루어져 있는 균형 이진트리
+ * Key값 중복 불가,
+ * Insert시 key값으로 자동 정렬(오름차순)
+ * 
+ * Method
+ * Iterator - begin(),end(), rbegin(), rend()
+ * count(), find(), insert(pair 객체)
+ * value_comp(), key_comp()
+ *
+ * 
+ * Multimap
+ *	multiset 과 같이 Key값 중복가능
+ *	count(), lower_bound(), upper_bound(), equal_range() ... 에 유의한다
+ */
+
+//https://blockdmask.tistory.com/87
+
+#include<iostream>
+#include<string>
+#include<map>
+using namespace std;
+
+int main(void) {
+	
+
+	//map 생성
+	map<int, string> m;
+
+	//Insert()
+	//pair 객체를 인자로 받아야한다 또는
+	//m[key] = value 로 추가, 수정가능
+	m.insert(pair<int, string>(40, "me"));
+	m.insert(pair<int, string>(35, "Show"));
+	m.insert(pair<int, string>(10, "Dok2"));
+	m.insert(pair<int, string>(90, "6"));
+	m.insert(pair<int, string>(65, "money"));
+	m.insert(pair<int, string>(20, "ZICO"));
+	m[50] = "the";
+
+	//Iterator
+	//pair 객체이므로 Key - first, Value - second
+	map<int, string>::iterator iter;
+	for (iter = m.begin(); iter != m.end(); iter++) {
+		cout << "[" << iter->first << "," << (*iter).second << "]" << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
