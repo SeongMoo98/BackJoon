@@ -21,7 +21,7 @@ void dfs(int num, int count) {
 
 	for (int i = num; i <= N; i++) {
 		if (!visited[i]) {
-			visited[i] = false;
+			visited[i] = true;
 			arr[count] = i;
 			dfs(i + 1, count + 1);
 			visited[i] = false;
@@ -30,9 +30,8 @@ void dfs(int num, int count) {
 }
 
 
+int main(void){
 
-int main(void)
-{
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
