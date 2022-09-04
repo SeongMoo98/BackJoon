@@ -1,0 +1,112 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+//DFS(Depth - First Search)
+//스택 또는 재귀함수로 구현한다
+
+//재귀함수 이용
+void DFS(int start, vector<int> graph[], bool check[])
+{
+	//DFS에 들어오면 "방문"한것으로 판단
+	//해당 위치에 check true 해준다
+	check[start] = true;
+	cout << start;
+
+	for (int i = 0; i < graph[start].size(); i++) {
+		int next = graph[start][i];
+		//방문하지 않았으면
+		if (check[next] == false)
+			DFS(next, graph, check);
+	}
+}
+
+
+//스택이용
+void dfs(int start, vector<int> graph[], bool check[])
+{
+	stack<int> s;
+	s.push(start);
+	check[start] = true;
+	cout << start;
+
+	while (!s.empty()) {
+		int current_node = s.top();
+		s.pop();
+		for (int i = 0; i < graph[current_node].size(); i++) {
+			int next_node = graph[current_node][i];
+
+			if (check[next_node] == false) {
+				cout << next_node;
+				check[next_node] = true;
+
+				s.push(current_node);
+				s.push(next_node);
+				break;
+			}
+		}
+	}
+}
+
+//BFS(Breadth First Search)
+//큐를 이용해서 구현한다
+
+void BFS(int start, vector<int> graph[], bool check[]) {
+	queue<int> q;
+	q.push(start);
+	check[start] = true;
+
+	while (!q.empty()) {
+		int temp = q.front();
+		q.pop();
+		cout << temp;
+
+		for (int i = 0; i < graph[temp].size(); i++) {
+			if (check[graph[temp][i]] == false) {
+				q.push(graph[temp][i]);
+				check[graph[temp][i]] = true;
+			}
+		}
+	}
+}
+int main(void) {
+
+	//DFS
+	int n, m, start;
+	cin >> n >> m >> start;
+
+	//graph[] : List를 통해서 구현한 그래프
+	//check[] : 탐색을 했으면 true 아니면 false로 구분
+	vector<int>* graph = new vector<int>[n + 1];
+	bool* check = new bool[n + 1];
+
+	fill(check, check + n + 1, false);
+
+	for (int i = 0; i < m; i++) {
+		int u, v;
+		cin >> u >> v;
+
+		graph[u].push_back(u);
+		graph[v].push_back(v);
+	}
+
+	for (int i = 1; i <= n; i++) {
+		sort(graph[i].begin(), graph[i].end());
+	}
+
+	//재귀함수
+	DFS(start, graph, check);
+	cout << "\n";
+
+	////스택이용
+	//dfs(start, graph, check);
+	//cout << "\n";
+
+	//BFS(start, graph, check);
+	//cout << "\n";
+
+	return 0;
+}
