@@ -1,0 +1,135 @@
+//https://blockdmask.tistory.com/79
+/*
+ * Set container
+ * Node기반의 컨테이너이며 균형 이진트리로 구성
+ * Default 오름차순 정렬(inorder 오름차순)
+ * Key라 불리는 element들의 집합
+ * Key는 중복 x
+ * 
+ * 
+ * Method
+ * s.begin(), s.end(), s.rbegin(), s.rend()
+ * s.count(key) - key의 개수 return ==> 0 or 1
+ * s.insert(), s.erase(), s.find() ...
+ * 
+ * 
+ * 
+ * Multiset - 중복된 Key값을 저장할 수 있는 set
+ * ms.insert(key)
+ *	element의 위치를 가리키는 iterator 반횐
+ * ms.find(), ms.count(key) ...
+ * 
+ * lower_bound(),upper_bound(), equal_range() - 밑에 예제
+ * 
+ */
+#include<iostream>
+#include<set>
+using namespace std;
+
+
+
+int main(void)
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	set<int> s;
+	//Insert()
+	//자동으로 정렬된 위치에 insert
+	//insert 성공 실패 여부 : pair<iterator, bool>로 return
+	// pair.first - 삽입한 원소를 가리키는 iterator
+	// pair.second - 성공 실패
+	s.insert(40);
+	s.insert(20);
+	s.insert(10);
+	s.insert(30);
+	s.insert(50);
+
+	set<int>::iterator iter;
+	for (iter = s.begin(); iter != s.end(); iter++) {
+		cout << *iter << " ";
+	}
+	cout << endl;
+
+	//중복값 넣기
+	s.insert(20);
+	for (iter = s.begin(); iter != s.end(); iter++) {
+		cout << *iter << " ";
+	}
+
+	//find(key)
+	//key값을 갖는 element를 찾고 존재한다면 iterator반환
+	//없다면 s.end()를 반환
+
+	iter = s.find(30);
+	if (iter != s.end()) {
+		cout << *iter << " : 존재 " << endl;
+	}
+	else {
+		cout << "존재하지 않음 " << endl;
+	}
+	iter = s.find(333);
+	if (iter != s.end()) {
+		cout << *iter << " : 존재" << endl;
+	}
+	else {
+		cout << "존재하지 않음" << endl;
+	}
+
+
+	//Multiset
+	multiset<int> ms;
+
+	ms.insert(9);
+	ms.insert(13);
+	ms.insert(5);
+	ms.insert(7);
+	ms.insert(3);
+	ms.insert(1);
+	ms.insert(11);
+	ms.insert(15);
+
+	multiset<int>::iterator iter;
+
+	for (iter = ms.begin(); iter != ms.end(); iter++) {
+		cout << *iter << " ";
+	}
+	cout << endl;
+
+	cout << "ms.count(11) : " << ms.count(11) << endl << endl;
+
+	ms.insert(3); 
+	ms.insert(11); 
+	ms.insert(11);
+
+	for (iter = ms.begin(); iter != ms.end(); iter++) {
+		cout << *iter << " ";
+	}
+	cout << endl;
+
+	cout << "ms.count(11) : " << ms.count(11) << endl << endl;
+
+
+	//lower_bound(), upper_bound()
+	multiset<int>::iterator start, end;
+	//Key 11이 처음나온 구간 [폐구간]
+	start = ms.lower_bound(11);
+	//Key 11의 마지막 부분의 다음 (개구간)
+	end = ms.upper_bound(11);
+
+	for (start; start != end; start++) {
+		cout << *start << " ";
+	}
+	cout << endl;
+
+	//equal_range()
+	//	iterator 두개를 원소로 가지는 pair 객체 return
+	//	first는 lower_bound를 second는 upper_bound를 묶어놓았다고 생각
+
+	pair<multiset<int>::iterator, multiset<int>::iterator> equal_pair = ms.equal_range(11);
+	for (iter = equal_pair.first; iter != equal_pair.second; iter++) {
+		cout << *iter << " ";
+	}
+	cout << endl;
+	return 0;
+}
+
