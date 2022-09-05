@@ -15,6 +15,20 @@
  * Multimap
  *	multiset 과 같이 Key값 중복가능
  *	count(), lower_bound(), upper_bound(), equal_range() ... 에 유의한다
+ *
+ *
+ * Hash Map, Unordered Map, Mapq
+ *
+ * Hash가 붙지않은 map,set은 자료를 정렬해서 저장한다(key를 기준으로 오름차순)
+ * ==> 순회할 때도 저장된 데이터를 넣은 순서대로가 아니라 정렬된 순서대로 순회
+ * 
+ * Hash Map vs Unordered Map
+ *	Hash map
+ *		비표준(namespace가 stdext)
+ *	Unordered map
+ *		표준(namespace가 std)
+ *		성능도 우월 ==> unordered map사용 권장
+ * 
  */
 
 //https://blockdmask.tistory.com/87
