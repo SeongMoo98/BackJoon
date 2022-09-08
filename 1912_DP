@@ -1,0 +1,48 @@
+#include<iostream>
+
+using namespace std;
+
+#define MAX 100001
+
+int n;
+int value[MAX] = { 0, }; //inpyt
+int res[MAX] = { 0, }; //i번째에서 끝나는 제일 큰 연속합
+int answer = 0;
+
+void DP() {
+	answer = value[1];
+
+	for (int i = 1; i <= n; i++) {
+		res[i] = value[i];
+
+		if (i == 1)
+			continue;
+		//이전의 합과 i번째 원소합이 더 크면
+		if (res[i] < res[i - 1] + value[i])
+			res[i] = res[i - 1] + value[i];
+
+		if (res[i] > answer)
+			answer = res[i];
+	}
+}
+
+
+
+int main(void) {
+
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> n;
+	
+	for (int i = 1; i <= n; i++) {
+		int num; cin >> num;
+		value[i] = num;
+	}
+
+	DP();
+	cout << answer;
+	return 0;
+}
+
