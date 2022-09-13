@@ -8,6 +8,22 @@ using namespace std;
 //DFS(Depth - First Search)
 //스택 또는 재귀함수로 구현한다
 
+void DFS(int depth) {
+	/*
+		깊이가 최대 깊이일 경우
+		더이상 탐색할 자식노드가 없으므로 return
+	*/
+	if (depth == N)
+		return;
+
+	/*
+		깊이를 1씩 증가시키면서 DFS를 재귀 호출
+	*/
+	for (int i = 1; i <= N; i++) {
+		DFS(depth + 1);
+	}
+}
+
 //재귀함수 이용
 void DFS(int start, vector<int> graph[], bool check[])
 {
