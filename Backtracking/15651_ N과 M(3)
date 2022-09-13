@@ -1,10 +1,16 @@
 #include<iostream>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<algorithm>
+#include<memory.h>
 using namespace std;
 
 int N, M;
 
 int arr[7] = { 0, };
 
+// arr {1, 1, 1} -> {1, 1, 2} -> ...
 void dfs(int num, int k) {
 	
 	if (k == M) {
@@ -14,6 +20,7 @@ void dfs(int num, int k) {
 		cout << "\n";
 	}
 	else {
+		//1 ~ N 까지 탐색
 		for (int i = 1; i <= N; i++) {
 			arr[k] = i;
 			dfs(i + 1, k + 1);
@@ -22,7 +29,10 @@ void dfs(int num, int k) {
 	}
 }
 
+
 int main(void) {
+
+
 
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
