@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+
+//DFS를 활용한 조합문제
+//재귀 호출에서 현재 뽑은 원소 이전 값들은 고려 x
+
+
+int arr[9] = { 0, };
+int N, M;
+
+void dfs(int num, int k) {
+
+	//M까지 들어갔을 떄 
+	if (k == M) {
+		for (int i = 0; i < M; i++) {
+			cout << arr[i] << " ";
+		}
+		cout << "\n";
+	}
+	else {
+		for (int i = num; i <= N; i++) {
+			arr[k] = i; // 값 저장
+			dfs(i + 1, k + 1);
+		}
+	}
+	
+}
+
+
+int main(void){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> N >> M;
+	dfs(1, 0);
+	
+
+	return 0;
+}
+
