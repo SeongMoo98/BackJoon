@@ -37,7 +37,7 @@ void dfs(const int& length) {
 		if (visited[i])
 			continue;
 		visited[i] = true;
-		arr[length] = i;
+		arr[length] = i; //???? 왜이렇게 
 		dfs(length + 1);
 		visited[i] = false;
 	}
