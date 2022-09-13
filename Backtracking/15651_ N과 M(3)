@@ -1,14 +1,9 @@
 #include<iostream>
-#include<vector>
-#include<queue>
-#include<stack>
-#include<algorithm>
-#include<memory.h>
 using namespace std;
 
 int N, M;
 
-int arr[7] = { 1,2,3,4,5,6,7 };
+int arr[7] = { 0, };
 
 void dfs(int num, int k) {
 	
@@ -25,15 +20,9 @@ void dfs(int num, int k) {
 
 		}
 	}
-
-
-
-
-
 }
+
 int main(void) {
-
-
 
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
