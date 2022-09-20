@@ -1,0 +1,49 @@
+/*
+ * Spanning Tree
+ * Undirected Graph에서 Tree는 모든 Vertex를 연결
+ * Cycle이 없어야 한다
+ * ==> edge의 개수는 N-1
+ * 
+ * Minimum Spanning Tree
+ * Spanning Tree에서 사용된 edge의 weight의 합이 최소
+ * 사용 알고리즘
+ * 1. Kruskal 알고리즘 2. Prim 알고리즘
+ */
+#include<iostream>
+using namespace std;
+
+int T;
+// N : 국가의 수, M : 비행기 종류
+int N, M;
+
+
+//국가를 모두 여행하기 위해 타야하는 비행기 종류의 최소개수
+//중복 방문 가능
+
+//즉 지나가는 edge의 수를 최소로하고 모든 vertex 방문
+//==> MST
+//이때 MST는 edge에 weight가 존재하지만
+//이 문제는 모든 edge의 weight가 동일하다
+//==> N-1번
+
+int main(void) {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> T;
+
+	for (int i = 0; i < T; i++) {
+		cin >> N >> M;
+		int a, b;
+		for (int j = 0; j < M; j++) {
+			cin >> a >> b;
+		}
+		cout << N - 1 << "\n";
+	
+	}
+
+	
+	return 0;
+}
+
