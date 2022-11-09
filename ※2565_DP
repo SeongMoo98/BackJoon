@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class Main {
+
+    //Longest Increasing Subsequence
+    //전깃줄 합선이 안되게 최소로 제거해야할 전깃줄 개수 구하기
+    //==> 최대로 설치할 수 있는 개수를 DP, LIS로 구하고 전체 개수에서 뺌
+    public static void main(String[] args){
+        int N;
+        Scanner sc = new Scanner(System.in);
+
+        N = sc.nextInt();
+
+        //[0] : A, [1] : B
+        int[][] lines = new int[N+1][2];
+        int[] dp = new int[N+1];
+        int Max = 1;
+
+        for(int i=0; i<N; i++){
+            lines[i][0] = sc.nextInt();
+            lines[i][1] = sc.nextInt();
+        }
+
+        //A를 기준으로 Sort
+        Arrays.sort(lines, new Comparator<int[]>(){
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+
+        for(int i=1; i<=N; i++){
+            dp[i] = 1;
+            for(int j=1; j<i; j++){
+                //과거 A의 전깃줄과 이어진 B번호보다
+                //현재 B번호가 더 커야 이을 수 있다
+               if(lines[i][1] > lines[j][1]){
+                   //과거 최대 전깃줄 개수 + 1
+                   dp[i] = Math.max(dp[i], dp[j]+1);
+                }
+            }
+            Max = Math.max(Max, dp[i]);
+        }
+
+        System.out.println(N-Max);
+    }
+}
