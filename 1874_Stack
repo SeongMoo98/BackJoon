@@ -21,8 +21,10 @@ public class Main {
                     s.push(i);
                     sb.append("+").append("\n");
                 }
+                //이전에 어디까지 입력을 받았는지
                 start = value;
             }
+            //스택의 맨 위 원소가 입력받은 원소와 같지 않다면..?
             else if(s.peek() != value){
                 System.out.println("NO");
                 return;
