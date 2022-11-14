@@ -3,8 +3,7 @@ import java.util.*;
 public class Main {
     //14503 : 로봇청소기
     final static Scanner sc = new Scanner(System.in);
-    static int N;
-    static int M;
+    static int N,M;
     static int[][] arr;
 
     //방향 : 북 동 남 서
@@ -20,6 +19,8 @@ public class Main {
         //2. 현재 위치에서 현재방향을 기준으로 왼쪽방향 탐색
         //결국 한 바퀴를 돈다
         for(int i = 0; i < 4; i++){
+            //북 -> 서 -> 남 -> 동
+            //0 -> 3 -> 2 -> 1 ( -> 0 -> ...)
             dir = (dir + 3) % 4;
 
             int nx = c + dx[dir];
@@ -34,8 +35,10 @@ public class Main {
         }
 
         //3. 네 방향 모두 청소가 되어있거나, 한 곳이라도 벽인 경우
-        //바라보는 방향을 유지한 채로 한 칸 후진
-
+        //바라보는 방향을 유지한 채(2번을 계속 돌아서 결국 뒷 방향을 보게된다)로 한 칸 후진
+        
+        //북 -> 남 or 서 -> 동
+        // 0 -> 2 or 1 -> 3
         int back = (dir + 2) % 4;
 
         int bx = c + dx[back];
@@ -64,7 +67,6 @@ public class Main {
         }
 
         solution(r, c, dir);
-
         System.out.println(ans);
     }
 }
