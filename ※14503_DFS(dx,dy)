@@ -1,0 +1,70 @@
+import java.util.*;
+
+public class Main {
+    //14503 : 로봇청소기
+    final static Scanner sc = new Scanner(System.in);
+    static int N;
+    static int M;
+    static int[][] arr;
+
+    //방향 : 북 동 남 서
+    static int[] dx = {0, 1, 0, -1};
+    static int[] dy = {-1, 0, 1, 0};
+
+    static int ans = 1;
+
+    private static void solution(int r, int c, int dir){
+        //1. 현재위치 청소
+        arr[r][c] = -1;
+
+        //2. 현재 위치에서 현재방향을 기준으로 왼쪽방향 탐색
+        //결국 한 바퀴를 돈다
+        for(int i = 0; i < 4; i++){
+            dir = (dir + 3) % 4;
+
+            int nx = c + dx[dir];
+            int ny = r + dy[dir];
+
+            if(nx >= 0 && ny >= 0 && ny < N && nx < M && arr[ny][nx] == 0){
+                ans++;
+                solution(ny, nx, dir);
+
+                return;
+            }
+        }
+
+        //3. 네 방향 모두 청소가 되어있거나, 한 곳이라도 벽인 경우
+        //바라보는 방향을 유지한 채로 한 칸 후진
+
+        int back = (dir + 2) % 4;
+
+        int bx = c + dx[back];
+        int by = r + dy[back];
+
+        if(by>=0 && bx>=0 && by < N && bx < M && arr[by][bx] != 1) {
+            solution(by,bx,dir);
+        }
+    }
+
+    public static void main(String[] args){
+
+        N = sc.nextInt();
+        M = sc.nextInt();
+
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int dir = sc.nextInt();
+
+        arr = new int[N][M];
+
+        for(int i=0; i<N; i++){
+            for(int j=0; j<M; j++){
+                arr[i][j] = sc.nextInt();
+            }
+        }
+
+        solution(r, c, dir);
+
+        System.out.println(ans);
+    }
+}
