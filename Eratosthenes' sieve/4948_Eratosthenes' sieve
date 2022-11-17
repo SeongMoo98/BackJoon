@@ -7,13 +7,11 @@ int main(void)
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	while (1)
-	{
+	while (1){
 		int num;
 		cin >> num;
 
-		if (num == 0)
-		{
+		if (num == 0){
 			break;
 		}
 
@@ -21,34 +19,23 @@ int main(void)
 
 		int* arr = new int[Max + 1];
 
-		for (int i = 0; i <= Max; i++)
-		{
+		for (int i = 0; i <= Max; i++){
 			if (i <= num)
-			{
 				arr[i] = 0;
-			}
 			else
-			{
 				arr[i] = i;
-			}
 		}
 
 		//최댓값을 기준으로 해야함
-		for (int i = 2; i <= sqrt(Max); i++)
-		{
+		for (int i = 2; i <= sqrt(Max); i++){
 			for (int j = i * 2; j <= Max; j += i)
-			{
 				arr[j] = 0;
-			}
 		}
 
 		int count = 0;
-		for (int i = 0; i <= Max; i++)
-		{
+		for (int i = 0; i <= Max; i++){
 			if (arr[i] != 0)
-			{
 				count++;
-			}
 		}
 		cout << count << "\n";
 	}
