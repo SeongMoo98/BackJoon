@@ -1,0 +1,84 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+
+import static java.lang.Math.*;
+
+
+public class Main {
+    //final static Scanner sc = new Scanner(System.in);
+
+    static int N;
+
+    static int[][] arr;
+    static boolean[][] visited;
+
+    // 0 : 상, 1 : 하, 2 : 좌, 3 : 우
+    static int[] dx = {0,0,-1,1};
+    static int[] dy = {-1,1,0,0};
+
+    static int count = 0;
+    static int curX, curY;
+    static void DFS(int x, int y){
+        visited[x][y] = true;
+        count++;
+
+        for(int i=0; i<4; i++){
+            //이렇게 새로 변수를 할당하고 할 생각
+            curX = x + dx[i];
+            curY = y + dy[i];
+
+            if(Range_check() && visited[curX][curY] == false
+                    && arr[curX][curY] == 1){
+                visited[curX][curY] = true;
+                DFS(curX, curY);
+            }
+        }
+
+
+    }
+
+    static boolean Range_check() {
+        return (curX >= 0 && curX < N && curY >= 0 && curY < N);
+    }
+
+    //2667번 - 단지 번호 붙이기
+    // 총 단지수와 단지 내 집의 수를 오름차순으로 정렬해서 출력
+    // 1 : 집이 있음 0 : 집이 없음
+    // 상하좌우만 붙어있는거 대각선 x
+    public static void main(String[] args) throws IOException {
+
+        // BufferedReader&Writer
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        List<Integer> list = new ArrayList<>();
+
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N][N];
+        visited = new boolean[N][N];
+
+        for(int i=0; i<N; i++){
+            String input = br.readLine();
+            for(int j=0; j<N; j++){
+                arr[i][j] = Character.getNumericValue(input.charAt(j));
+            }
+        }
+
+        for(int i=0; i<N; i++){
+            for(int j=0; j<N; j++){
+                if(!visited[i][j] && arr[i][j]==1){
+                    count=0;
+                    DFS(i, j);
+                    list.add(count);
+                }
+            }
+        }
+
+        Collections.sort(list);
+        System.out.println(list.size());
+        for(int ans : list){
+            System.out.println(ans);
+        }
+    }
+}
