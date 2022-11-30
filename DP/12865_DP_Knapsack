@@ -20,7 +20,7 @@ public class Main {
         // 물건의 weight와 value저장
         // [0] : weight, [1] : value
         /* 쌍을 저장할 때 이런식으로 만들 생각을 못했다
-         * 자주 봤던 코드인데 
+         * 자주 봤던 코드인데
          * */
         int[][] item = new int[N+1][2];
 
@@ -36,7 +36,10 @@ public class Main {
          * 쪼개서 DP Table을 구성하는 생각
          * */
         int[][] dp = new int[N+1][maxWeight+1];
-        for(int i=1; i<=N; i++){
+
+        // 수용가능한 최대 무게에 따른 i까지의 각 물품의 무게 및 가치를 Table로 표현
+        // row는 탐색했다는 의미 ==> i번째 물품을 담을 수 없을 때 dp[i][j] = dp[i-1][j]
+       for(int i=1; i<=N; i++){
             for(int j=1; j<=maxWeight; j++){
                 // i번째 무게를 더 담을 수 없는 경우
                 if(item[i][0] > j){
