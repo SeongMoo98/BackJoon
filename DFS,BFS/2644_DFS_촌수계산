@@ -1,0 +1,60 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+public class Main {
+    final static Scanner sc = new Scanner(System.in);
+
+    static List<Integer>[] list;
+    static boolean[] visited;
+    static int ans = -1;
+
+    static void DFS(int start, int end, int count){
+        if(start == end){
+            ans = count;
+            return;
+        }
+
+        visited[start] = true;
+        for(int i=0; i<list[start].size(); i++){
+            int next = list[start].get(i);
+            if(!visited[next]){
+                DFS(next,end, count+1);
+            }
+        }
+    }
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        list = new ArrayList[N+1];
+        visited = new boolean[N+1];
+
+        for(int i=1; i<N+1; i++)
+            list[i] = new ArrayList<>();
+
+        /* StringTokenizer */
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int start = Integer.parseInt(st.nextToken());
+        int end = Integer.parseInt(st.nextToken());
+
+        int M = Integer.parseInt(br.readLine());
+
+        for(int i=0; i<M; i++){
+            st = new StringTokenizer(br.readLine());
+            int parent = Integer.parseInt(st.nextToken());
+            int child = Integer.parseInt(st.nextToken());
+
+            list[parent].add(child);
+            list[child].add(parent);
+        }
+
+        DFS(start, end, 0);
+        System.out.println(ans);
+    }
+}
