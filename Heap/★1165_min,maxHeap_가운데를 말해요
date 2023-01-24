@@ -1,0 +1,80 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+//1655 가운데를 말해요
+/**
+ * Priority Queue 우선순위 큐
+ * 일반적인 큐의 구조 FIFO를 가지면서, 데이터가 들어온 순서대로 나가는 것이 아닌
+ * 우선순위를 먼저 결정하고 그 우선 순위가 높은 데이터가 먼저 나가는 구조
+ *
+ * 우선순위 큐에 저장할 객체는 필수적으로 Comparable Interface를 구현해야한다
+ * compareTo Method를 Override하고 해당 객체에서 처리할 우선순위 조건을 리턴
+ *
+ * Heap을 통해 구현하는 것이 일반적이다
+ * 데이터를 삽입할 때 우선순위를 기준으로 MaxHeap 또는 MinHeap을 구성하고
+ * 데이터를 꺼낼 때 Root Node를 얻어낸다
+ * 삭제할 때는 빈 Root Node위치에 맨 마지막 노드를 삽입한 후 아래로 내려가면서 적절한 자리를 찾아 옮긴다
+ *
+ * 내부구조는 Heap으로 구성되어 Binary Tree 구조로 이루어져 있다
+ *
+ * 기본 정렬구조는 내림차순
+ * 오름차순 정렬
+ * PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder())
+ *
+ * Method
+ * poll() - 첫번째 값을 반환하고 제거, 비어있다면 null
+ * remove() - 첫번째 값을 제거, 비어있다면 Exception
+ * peek() - 첫번째 값을 반환만 하고 제거 하지는 않는다, 비어있다면 null
+ * element() - 첫번째 값을 반환만 하고 제거 하지는 않는다, 비어있다면 Exception
+ *
+ * add(value), offer(value) - 데이터 삽입
+ */
+
+
+/**
+ * 단순히 입력값을 저장하고 정렬 -> 가운데 값을 찾아준다
+ * N의 Max값은 100,000 ==> 매번 정렬하면 O(NlogN) ==> N * N * logN
+ *
+ * ==> 입력한 값 중에 중간값들을 기억하고 있는다
+ * 작은 값을 담는 공간 하나와, 큰 값들을 담는 공간 하나, 총 2개의 공간을 만들어 놓고
+ * 두개의 공간에는 데이터의 수가 일정하게 유지시키면서 작은 값을 출력
+ */
+public class Main {
+    private final static BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+    private final static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(br.readLine());
+
+        //maxHeap에는 작은값, minHeap에는 큰 값을 저장
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for(int i=0; i<N; i++){
+            int data = Integer.parseInt(br.readLine());
+
+            // 두 PQ의 크기가 같은 경우 maxHeap에 값을 추가, 입력한 값이 minHeap의 최솟값보다 크면 둘을 swap
+            // 다른 경우 minHeap에 값을 추가, 입력한 값이 maxHeap의 최댓값보다 작다면 둘을 swap
+            //왜 ??
+            if(maxHeap.size() == minHeap.size()) maxHeap.add(data);
+            else minHeap.add(data);
+
+            if(!minHeap.isEmpty() && !maxHeap.isEmpty()){
+                //minHeap의 최솟값(큰 값들중 작은 값) < maxHeap 최대값(작은 값들중 큰 값)
+                if(minHeap.peek() < maxHeap.peek()){
+                    //즉, maxHeap에 들어온 값(입력한 값)이 크다면 swap
+                    int temp = minHeap.poll();
+                    minHeap.add(maxHeap.poll());
+                    maxHeap.add(temp);
+                }
+            }
+            //maxHeap의 top에 위치한 값이 중간 값이 된다
+            //여기서 하나씩 출력하는것보다 StringBuilder로 만들고 한번에 출력하는게 빠르나?
+            sb.append(maxHeap.peek() + "\n");
+
+        }
+        System.out.println(sb);
+    }
+}
