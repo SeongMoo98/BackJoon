@@ -1,0 +1,79 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+//10830 행렬제곱
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+    static long[][] arr = new long [5][5];
+    static long[][] result = new long[5][5];
+
+    static int N;
+    static long B;
+
+    //Matrix X * Matrix Y
+    private static long[][] matrix_mult(long[][] X, long[][] Y){
+        long [][] temp = new long[5][5];
+
+        for(int i=0; i<N; i++){
+            for(int j=0; j<N; j++){
+                for(int k=0; k<N; k++){
+                    temp[i][j] += (X[i][k] * Y[k][j]);
+                }
+                temp[i][j] %= 1000;
+            }
+        }
+        return temp;
+    }
+
+    //분할정복 풀이
+    // ex) B = 11 ==> arr^11
+    // arr^11 = arr^5 * arr^5 * arr^1
+    // arr^5 = arr^2 * arr^2 * arr^1
+    // arr^2 = arr^1 * arr^1
+    private static long[][] solve(long[][] X, long exp){
+        if(exp == 1)
+            return X;
+
+        //지수를 절반으로 분할하여 재귀호출
+        long[][] temp = solve(X, exp/2);
+
+        //하위 재귀에서 얻은 행렬을 제곱해준다
+        temp = matrix_mult(temp, temp);
+
+        //지수가 홀수하면 마지막에 1번 더 곱해준다
+        if (exp % 2 == 1) {
+            temp = matrix_mult(temp, arr);
+        }
+        return temp;
+
+    }
+    public static void main(String[] args) throws IOException {
+        N = sc.nextInt();
+        B = sc.nextLong();
+
+        // N * N 행렬의 B제곱을 구하라
+        // B <= 100,000,000,000
+        // ==> B번을 일일이 곱하면 시간초과가 난다
+        for(int i=0; i<N; i++){
+            for(int j=0; j<N; j++){
+                arr[i][j] = sc.nextLong();
+            }
+        }
+
+        result = solve(arr, B);
+
+        for (int i=0; i<N; i++){
+            for (int j=0; j<N; j++){
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+    }
+}
