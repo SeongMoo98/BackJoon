@@ -1,0 +1,112 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+    //N : 학생의 수, M : 키를 비교한 회수
+    static int N, M;
+
+    //키 순서대로 선다
+
+    // 위상정렬 ( Topological Sorting )
+    // 정렬 알고리즘의 일종으로, 순서가 정해져 있는 일련의 작업을 차례대로 수행해야할 때 사용
+    // Directed Acyclic Graph(DAG)의 모든 노드를 '방향성'을 거스르지 않도록 순서대로 나열
+
+    // 진입차수(Indegree) : 특정 노드로 들어오는 Edge의 개수
+    // 진출차수(Outdegree) : 특정 노드에서 나가는 Edge의 개수
+
+    // 알고리즘
+    // 1. 진입차수가 0인 노드를 큐에 넣는다
+    // 2. 큐가 빌 때까지 아래의 과정을 반봅
+    //      큐에서 원소를 꺼내 해당 노드에서 나가는 Edge를 그래프에서 제거
+    //      새롭게 진입차수가 0이 된 노드를 큐에 삽입
+
+    private static void Topological_Sorting(ArrayList<Integer>[] list, int[] indegree, boolean[] visited, Queue<Integer> q){
+
+        // 1단계
+        for(int i=1; i<=N; i++){
+            if(indegree[i] == 0){
+                System.out.print(i+ " ");
+                visited[i] = true;
+                for(int j=0; j<list[i].size(); j++){
+                    indegree[list[i].get(j)]--;
+                }
+                break;
+            }
+        }
+
+        // 2 단계
+        for(int count=1; count<=N; count++){
+            for(int i=1; i<=N; i++){
+                if(indegree[i] == 0 && visited[i] == false ){
+                    q.add(i);
+                    // Indegree가 0인 Node 방문
+                    System.out.print(i+ " ");
+                    visited[i] = true;
+                }
+            }
+            while(!q.isEmpty()){
+                int curr = q.poll();
+                for(int i=0; i<list[curr].size(); i++){
+                    indegree[list[curr].get(i)]--;
+                }
+            }
+        }
+        
+        
+        /** 모범답안 **/
+        // Indegree = 0 이면 Queue에 넣는다
+        for(int i=1; i<=N; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        
+        while(!q.isEmpty()){
+            System.out.print(q.peek() + " ");
+            int curr = q.poll();
+            
+            // 자신이 가리키는 Node의 Indegree를 -1 해주고
+            // 만약 그 Node의 Indegree가 0 이라면 Queue에 넣어준다
+            for(int i=0; i<list[curr].size(); i++){
+                int next = list[curr].get(i);
+                indegree[next]--;
+                if(indegree[next]==0){
+                    q.add(next);
+                }
+            }
+        }
+        
+
+    }
+    public static void main(String[] args) throws IOException {
+
+        N = sc.nextInt(); M =sc.nextInt();
+
+        Queue<Integer> q = new LinkedList<>();
+
+        int[] indegree = new int[N+1];
+        boolean[] visited = new boolean[N+1];
+        ArrayList<Integer>[] list = new ArrayList[N+1];
+        for(int i=1; i<=N; i++) list[i] = new ArrayList<>();
+
+        for(int i=0; i<M; i++){
+            int higher = sc.nextInt();
+            int lower = sc.nextInt();
+            list[higher].add(lower);
+            indegree[lower]++;
+        }
+
+        Topological_Sorting(list, indegree, visited, q);
+
+
+
+    }
+}
