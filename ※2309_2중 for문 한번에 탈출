@@ -1,0 +1,53 @@
+import com.sun.source.tree.BinaryTree;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.TreeVisitor;
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    public static void main(String[] args) throws IOException {
+
+        int N = 9;
+        int[] height = new int[N];
+        boolean[] checked = new boolean[N];
+
+        int sum = 0;
+        for(int i=0; i<N; i++){
+            height[i] = sc.nextInt();
+            sum += height[i];
+        }
+        Arrays.sort(height);
+
+        int diff = sum - 100;
+
+        for(int i=0; i<N; i++){
+            for(int j=i+1; j<N; j++) {
+                if(height[i] + height[j] == diff){
+                    checked[i] = true;
+                    checked[j] = true;
+                    /** 이중 for문 한번에 탈출 **/ 
+                    i = N-1; 
+                    break;
+                }
+            }
+        }
+        for(int i=0; i<N; i++){
+            if(!checked[i])
+                System.out.println(height[i]);
+        }
+
+
+
+
+    }
+}
