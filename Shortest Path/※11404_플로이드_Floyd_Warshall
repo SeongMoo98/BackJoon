@@ -1,0 +1,88 @@
+import com.sun.source.tree.BinaryTree;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.TreeVisitor;
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+/**
+ * 플로이드 와샬 알고리즘
+ * 모든 정점에서 모든 정점(자기자신도 포함)으로의 최단경로를 구하는 알고리즘
+ *
+ * 각 단계별 현재까지 계산된 최소 비용을 구하고 반복적으로 갱신하여
+ * 모든 최소비용을 구한다
+ * ==> 반복의 기준이 '거쳐가는 정점'이다
+ *
+ * ==> X에서 Y로 가는 최소비용 vs X에서 node k를 거쳐 Y로 가는 비용
+ *
+ * 갈 수 없는 node는 INF로 설정
+ * 이 때 Integer.MAX_VALUE로 설정하면 범위를 넘어가서 오류가 생긴다?
+ */
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    static int N;
+    static int M;
+    static int[][] distance;
+    private static final int INF = 1000000000;
+
+
+
+    public static void main(String[] args) throws IOException {
+
+        N = sc.nextInt();
+        M = sc.nextInt();
+        // node i에서 node j로 가는 비용
+        // matrix[i][j] : i node에서 j node로 가는 weight
+        distance = new int[N + 1][N + 1];
+
+        // 초기값
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                distance[i][j] = INF;
+                if (i == j) distance[i][j] = 0;
+            }
+        }
+
+        // 값 입력 받기
+        for (int i = 0; i < M; i++) {
+            int start = sc.nextInt();
+            int end = sc.nextInt();
+            int weight = sc.nextInt();
+            // 노선이 중복될 수 있다
+            // ==> 더 작은 값을 선택
+            if (distance[start][end] != INF)
+                distance[start][end] = Math.min(distance[start][end], weight);
+            else distance[start][end] = weight;
+        }
+
+        // 플로이드 와샬 알고리즘
+        for (int k = 1; k <= N; k++) {
+            for (int i = 1; i <= N; i++) {
+                for (int j = 1; j <= N; j++) {
+                    if (distance[i][j] > distance[i][k] + distance[k][j]) {
+                        distance[i][j] = distance[i][k] + distance[k][j];
+                    }
+                }
+            }
+        }
+
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                if (distance[i][j] == INF) {
+                    distance[i][j] = 0;
+                }
+                System.out.print(distance[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
