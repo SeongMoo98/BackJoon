@@ -1,0 +1,77 @@
+import com.sun.source.tree.BinaryTree;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.TreeVisitor;
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    // N : Node 수, R : 루트의 번호, Q : 쿼리의 수
+    // 정점 U를 루트로 하는 서브트리에 속한 정점의 수를 출력
+    static int N, R, Q;
+    static int[] dp;
+    static boolean[] visited;
+    static ArrayList<Integer>[] tree;
+
+    /**
+     * Tree에서의 Dynamic Programming
+     * DFS + DP
+     * 트리 DP는 대부분 DFS를 통해 Leaf Node로 향한 다음, 올라오면서 Root의 값을 처리하는 형태
+     */
+
+    private static int DFS_DP(int curr){
+        // 이미 방문한 곳
+        if(visited[curr]) return dp[curr];
+
+        visited[curr] = true;
+
+        // 현재 Node와 인접한 Node를 DFS로 방문
+        for(int node : tree[curr]){
+            if(visited[node] == true)
+                continue;
+            // DFS로 Leaf Node로 내려갔다가 더하면서 올라온다
+            dp[curr] = dp[curr] + DFS_DP(node);
+        }
+        return dp[curr];
+    }
+
+    public static void main(String[] args) throws IOException {
+        N = sc.nextInt(); R = sc.nextInt(); Q = sc.nextInt();
+        dp = new int[N+1];
+        visited = new boolean[N+1];
+        tree = new ArrayList[N+1];
+
+        for(int i=1; i<=N; i++) {
+            dp[i] = 1;
+            tree[i] = new ArrayList<>();
+        }
+
+        for(int i=0; i<N-1; i++){
+            int U = sc.nextInt();
+            int V = sc.nextInt();
+            tree[U].add(V);
+            tree[V].add(U);
+        }
+
+        DFS_DP(R);
+
+        for(int i=0; i<Q; i++){
+            int root = sc.nextInt();
+            sb.append(dp[root]).append("\n");
+        }
+        System.out.println(sb);
+
+
+
+    }
+}
