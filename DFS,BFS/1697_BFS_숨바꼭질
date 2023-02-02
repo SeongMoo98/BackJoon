@@ -56,6 +56,7 @@ public class Main {
 
         if ( N == K ) System.out.println(0);
         else BFS(N);
+        ㅁ
 
 
 
