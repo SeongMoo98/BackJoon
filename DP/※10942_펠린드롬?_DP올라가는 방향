@@ -1,0 +1,81 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final static Scanner sc = new Scanner(System.in);
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    static int N;
+    static int S;
+    static int E;
+    static int M;
+    static int[] input;
+    // S번째 수부터 E번째 수까지 팰린드롬인지 아닌지 판단
+
+    static boolean[][] palindrome;
+
+    static private void DP(){
+
+        // 1. 길이가 1일때는 항상 팰린드롬
+        for(int i=1; i<=N; i++) palindrome[i][i] = true;
+
+        // 2. 길이가 2일떄는 input 값이 같으면 팰린드롬
+        for(int i=1; i<=N-1; i++){
+            if(input[i] == input[i+1]) palindrome[i][i+1] = true;
+        }
+
+        // 3. 길이가 3이상 (시작점+1) ~ (끝점-1)까지 팰린드롬 && 시작점의 값 == 끝점의 값
+
+        /** 내가 짠 코드 **/
+        //대각선으로 올라가야한는데 일자로 넘어감
+        //대각선으로 올라가는 코드는 어떻게 짬?
+//        for(int i=1; i<=N; i++){
+//            for(int j=i+2; j<=N; j++){
+//                if(input[i] == input[j] && palindrome[i+1][j-1]){
+//                    palindrome[i][j] = true;
+//                }
+//            }
+//        }
+
+
+
+        for(int i = 2; i < N; i++){
+            for(int j = 1; j <= N - i; j++){
+                if(input[j] == input[j + i] && palindrome[j + 1][j + i - 1])
+                    palindrome[j][j + i] = true;
+            }
+        }
+
+    }
+
+    // 이전까지 팰린드롬일때 -> 첫번째 값
+    public static void main(String[] args) throws IOException {
+
+        N = Integer.parseInt(br.readLine());
+
+        input = new int[N+1];
+        palindrome = new boolean[N+1][N+1];
+
+        String[] input_string = br.readLine().split(" ");
+        for(int i=1; i<=N; i++) input[i] = Integer.parseInt(input_string[i-1]);
+
+        M = Integer.parseInt(br.readLine());
+
+        DP();
+
+        for(int i=0; i<M; i++){
+            String[] input_SE = br.readLine().split(" ");
+            S = Integer.parseInt(input_SE[0]);
+            E = Integer.parseInt(input_SE[1]);
+            if(palindrome[S][E]) sb.append(1 + "\n");
+            else sb.append(0 + "\n");
+        }
+
+        System.out.println(sb);
+
+    }
+}
