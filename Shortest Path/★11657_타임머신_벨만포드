@@ -1,0 +1,124 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+/**
+ * 벨만-포드(Bellman-Ford) 알고리즘
+ * 한 노드에서 다른 노드까지의 최단 거리를 구하는 알고리즘
+ * 다익스트라 알고리즘은 모든 가중치가 양수인 경우에만 사용할 수 있는 반면
+ * 벨만 - 포드 알고리즘은 노드 간의 가중치가 음수인 경우에도 사용할 수 있다
+ *
+ * 음수 사이클
+ * 1. 단순 음수 간선일 때 : 단순경로이므로 그대로 가중치 계산
+ * 2. 사이클이 존재하지만 양수값이 더 클 때 : 사이클이 순환하여도 이득이 없으므로 그대로 진행
+ * 3. 사이클이 존재하고 음수값이 더 클 때 : 사이클이 순환할수록 가중치가 감소해 최소 비용을 찾는 입장에서 사이클을 무한히 순환하고
+ *      목적지에 도착함은 실질적인 최단경로라 보기 힘들다
+ *      ==> 적어도 동일노드를 방문하면 안된다는 등 제약조건이 존재해야한다
+ *
+ * 알고리즘
+ * 1. 시작노드 설정
+ * 2. 시작노드에서 각 다른 노드의 거리 값을 무한대로 설정하고 시작 노드를 0으로 설정
+ * 3. 현재노드의 모든 인접한 노드를 탐색하여 기존에 저장된 인접노드까지의 거리보다
+ *      현재 노드를 거치고 인접노드에 도달하는게 더 짧을 경우 값을 갱신
+ * 4. 3의 과정을 모든 노드에 대해 수행한다
+ * 5. 모든 노드에 3 ~ 4를 수행하고서 또 거리가 갱신된다면 -무한대를 발생시키는 음수 사이클이 존재함을 의미
+ */
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final static StringBuilder sb = new StringBuilder();
+
+    // N : 도시의 수, M : 버스 노선의 수
+    static int N,M;
+
+    // A -> B weight = C
+    static int A,B,C;
+    // C : 걸리는 시간 C = 0 : 순간이동, C < 0 : 타임머신
+    static int[] dist;
+    static final int INF = Integer.MAX_VALUE;
+
+
+    // 1. 1번도시에서 출발해 어떤 도시로 가는 과정에서 시간을 무한히 오래전으로 돌릴 수 있다
+    // ==> -1 출력 후 종료
+    // 2. 그렇지 한다면 N-1줄에 걸쳐 1번도시에서 출발해서 나머지 도시로 가는 가장 빠른시간
+    // 1->2, 1->3, 1->4 ... 출력
+    // 가는 경로가 없다면 -1
+
+    static class Edge{
+        int start ,end, weight;
+        Edge(int s, int e, int w){
+            this.start = s;
+            this.end = e;
+            this.weight = w;
+        }
+    }
+
+    private static boolean bellman_ford(ArrayList<Edge> edges){
+
+        dist = new int[N+1];
+        Arrays.fill(dist, INF);
+        dist[1] = 0;
+
+        // 노드의 개수만큼 반복
+        for(int i=0; i<N; i++){
+            // 간선의 개수만큼 반복
+            for(int j=0; j<M; j++) {
+                Edge edge = edges.get(j);
+                if(dist[edge.start] != INF &&
+                        dist[edge.end] > dist[edge.start] + edge.weight){
+                    dist[edge.end] = dist[edge.start] + edge.weight;
+                }
+            }
+        }
+
+        // 음수 사이클 확인
+        for(int i=0; i<M; i++){
+            Edge edge = edges.get(i);
+
+            //현재 간선의 들어오는 정점에 대해 비교 -> 더 작은 값이 생기면 음수사이클 존재
+            if(dist[edge.start] != INF &&
+                    dist[edge.end] > dist[edge.start] + edge.weight){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        String[] NM = br.readLine().split(" ");
+        N = Integer.parseInt(NM[0]);
+        M = Integer.parseInt(NM[1]);
+
+        ArrayList<Edge> edges = new ArrayList<>();
+
+        for(int i=0; i<M; i++){
+            String[] ABC = br.readLine().split(" ");
+            A = Integer.parseInt(ABC[0]);
+            B = Integer.parseInt(ABC[1]);
+            C = Integer.parseInt(ABC[2]);
+            edges.add(new Edge(A, B, C));
+        }
+
+
+        if (bellman_ford(edges)) {
+            for (int i = 2; i <= N; i++) {
+                if (dist[i] == INF) {
+                    System.out.println(-1);
+                    continue;
+                }
+                System.out.println(dist[i]);
+            }
+        }
+        else {
+            System.out.println(-1);
+        }
+
+
+
+
+    }
+}
