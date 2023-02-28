@@ -1,0 +1,73 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    static int V, E;
+    static final int INF = 10000000;
+
+    static int[][] dist;
+
+    private static void Floyd_Warhall(){
+        for(int k=1; k<=V; k++){
+            for(int i=1; i<=V; i++){
+                for(int j=1; j<=V; j++){
+                    if(i == j) continue;
+                    if(dist[i][j] > dist[i][k]+dist[k][j]){
+                        dist[i][j] = dist[i][k]+dist[k][j];
+                    }
+                }
+            }
+        }
+    }
+
+    private static void solve(){
+        int res = INF;
+        for(int i=1; i<=V; i++){
+            for(int j=1; j<=V; j++){
+                if(i == j) continue;
+
+                // 자기 자신을 제외한 두 정점이
+                // 서로에게 가는 경로가 있다면, 사이클이 존재
+                // 왜냐하면 플로이드 워셜로 만들어놨기 때문에
+                if(dist[i][j] !=INF && dist[j][i] != INF){
+                    res = Math.min(res, dist[i][j] + dist[j][i]);
+                }
+            }
+        }
+        res = (res == INF) ? -1 : res;
+
+        System.out.println(res);
+
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        String[] input = br.readLine().split(" ");
+        V = Integer.parseInt(input[0]); E = Integer.parseInt(input[1]);
+
+        dist = new int[V+1][V+1];
+        for(int i=1; i<=V; i++) Arrays.fill(dist[i], INF);
+
+        input = new String[3];
+        for(int i=0; i<E; i++){
+            input = br.readLine().split(" ");
+            int U = Integer.parseInt(input[0]);
+            int V = Integer.parseInt(input[1]);
+            int W = Integer.parseInt(input[2]);
+            dist[U][V] = W;
+        }
+
+        Floyd_Warhall();
+        solve();
+    }
+
+}
