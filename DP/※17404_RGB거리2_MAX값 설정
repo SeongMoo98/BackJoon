@@ -1,0 +1,72 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import static java.lang.Math.*;
+
+
+
+
+public class Main {
+    private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final static StringBuilder sb = new StringBuilder();
+
+
+    static int N;
+    static int[][] cost;
+    static int[][] dp;
+    // ? 비용 1000이 1000번 나올수도 있기 때문에 최대값 설정이 잘못됐었다
+    static final int MAX = 1000*1000+1;
+    // 집은 빨강, 초록, 파랑 중 하나의 색으로 칠해야 한다.
+    // 각각의 집을 빨강, 초록, 파랑으로 칠하는 비용이 존재
+    // 1번 집의 색은 2번, N번의 집의 색과 같지 않아야 한다
+    // N번 집은 N-1, 1번 집의 색과 같지 않아야 한다
+    // i번 집의 색은 i-1, i+1번 집의 색과 같지 않아야 한다
+
+    //모든 집을 칠하는 비용의 최솟값
+    private static void DP(){
+        int res =MAX;
+        for(int start=0; start<3; start++){
+           // 빨강, 초록, 파랑으로 칠하는 경우 각 색을 제외한 나머지는 최대값으로 초기화
+           for(int i=0; i<3; i++){
+               if(i == start) dp[1][i] = cost[1][i];
+               else dp[1][i] = MAX;
+           }
+
+           for(int i=2; i<=N; i++){
+               dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + cost[i][0];
+               dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + cost[i][1];
+               dp[i][2] = Math.min(dp[i - 1][0], dp[i - 1][1]) + cost[i][2];
+           }
+
+
+           for(int i=0; i<3; i++){
+               if(i != start) res = Math.min(res, dp[N][i]);
+           }
+
+       }
+        System.out.println(res);
+    }
+    public static void main(String[] args) throws IOException {
+
+
+        N = Integer.parseInt(br.readLine());
+        // 각 집을 빨강, 초록, 파랑으로 칠하는 비용
+        cost = new int [N+1][3];
+        // 0 : 1번집이 빨강일때, 1 : 1번집이 초록일때, 2 : 1번집이 파랑일때
+        dp = new int [N+1][3];
+        for(int i=1; i<=N; i++) Arrays.fill(dp[i], 1001);
+
+
+
+        for(int i=0; i<N; i++){
+            String[] cost_st = br.readLine().split(" ");
+            for(int j=0; j<3; j++ ) {
+                cost[i + 1][j] = Integer.parseInt(cost_st[j]);
+            }
+        }
+
+        DP();
+
+    }
+
+}
