@@ -6,9 +6,7 @@ import static java.lang.Math.*;
 public class Main {
     private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final static StringBuilder sb = new StringBuilder();
-
-
-
+    
     // 위,아래,왼쪽,오른쪽,앞,뒤가 익은 토마토에 의해 익는다
     // 모든 토마토가 익는 최소 일수
     // 토마토가 없을수도 있다
@@ -17,7 +15,7 @@ public class Main {
     static int N,M,H;
     static int[][][] board;
     
-    /**상,하,좌,우,위,아래**/
+    //상,하,좌,우,위,아래
     static int[] dx = {-1,0,1,0,0,0};
     static int[] dy ={0,1,0,-1,0,0};
     static int[] dz = {0,0,0,0,1,-1};
@@ -72,7 +70,6 @@ public class Main {
             this.y = y;
             this.z = z;
         }
-
     }
     public static void main(String[] args) throws IOException {
         String[] input = br.readLine().split(" ");
@@ -90,6 +87,7 @@ public class Main {
                 for(int k=0; k<M; k++){
                     int val = Integer.parseInt(Tomato_input[k]);
                     board[i][j][k] = val;
+                    // board의 값이 1일때만 BFS를 수행
                     if(val == 1) q.add(new Tomato(i,j,k));
                 }
             }
